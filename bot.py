@@ -28,7 +28,7 @@ async def on_ready():
 
 @bot.command()
 @commands.has_role('Developer')
-async def reload(ctx, message_id=discord.Message.id):
+async def reload(ctx):
     for cog in cogs:
         bot.reload_extension(cog)
     await ctx.send('Cogs reloaded!:white_check_mark:')
