@@ -29,13 +29,20 @@ async def on_ready():
 @bot.command()
 @commands.has_role('Developer')
 async def reload(ctx):
+    """
+    Reloads all the cogs
+    """
     for cog in cogs:
         bot.reload_extension(cog)
     await ctx.send('Cogs reloaded!:white_check_mark:')
 
 
 if __name__ == '__main__':
+    # the list of cogs inside of the cogs package,
+    # every cog must be added to this list.
+    # like so: cogs.PACKAGE_NAME
     cogs = ['cogs.BasicCommands']
+
     # the token must be given as an argument
     __token__ = sys.argv[1]
 
