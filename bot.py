@@ -42,7 +42,8 @@ if __name__ == '__main__':
     # every cog must be added to this list.
     # like so: cogs.PACKAGE_NAME
     cogs = ['cogs.BasicCommands',
-            'cogs.AdminCommands'
+            'cogs.AdminCommands',
+            'cogs.MinecraftCommands'
             ]
 
     # the token must be given as an argument
