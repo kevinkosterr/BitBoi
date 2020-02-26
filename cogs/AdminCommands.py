@@ -17,7 +17,7 @@ class AdminCommands(commands.Cog):
     @commands.command(name='clear')
     async def clear_command(self, ctx, amount: int):
         await ctx.send('Clearing messages.. this may take some time.')
-        deleted = await ctx.channel.purge(limit=amount)
+        deleted = await ctx.channel.purge(limit=amount+1)
         await ctx.send(f'Deleted {len(deleted)} messages')
 
 
