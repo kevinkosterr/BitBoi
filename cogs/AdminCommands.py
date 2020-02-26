@@ -21,3 +21,6 @@ class AdminCommands(commands.Cog):
         await ctx.send(f'Deleted {len(deleted)} messages')
 
 
+def setup(bot):
+    bot.add_cog(AdminCommands(bot))
+
