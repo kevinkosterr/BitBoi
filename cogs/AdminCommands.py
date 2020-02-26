@@ -8,7 +8,7 @@ class AdminCommands(commands.Cog):
 
     @commands.command(name='kick')
     async def kick_command(self, ctx, member: discord.Member, reason=None):
-        await member.kick(member)
+        await member.kick()
         if reason is not None:
             await ctx.send(f'{member}, has been kicked from the server. Reason: {reason}')
         else:
