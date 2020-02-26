@@ -7,6 +7,7 @@ class AdminCommands(commands.Cog):
         self.bot = bot
 
     @commands.command(name='kick')
+    @commands.has_permissions(kick_members=True)
     async def kick_command(self, ctx, member: discord.Member, reason=None):
         await member.kick(reason=reason)
         if reason is not None:
@@ -15,6 +16,7 @@ class AdminCommands(commands.Cog):
             await ctx.send(f'{member}, has been kicked from the server.')
 
     @commands.command(name='ban')
+    @commands.has_permissions(ban_members=True)
     async def ban_command(self, ctx, member:discord.Member, reason=None):
         await member.ban(reason=reason)
         if reason is not None:
@@ -23,6 +25,7 @@ class AdminCommands(commands.Cog):
             await ctx.send(f'{member}, has been banned from the server.')
 
     @commands.command(name='clear')
+    @commands.has_permissions(manage_messages=True)
     async def clear_command(self, ctx, amount: int):
         await ctx.send('Clearing messages.. this may take some time.')
         deleted = await ctx.channel.purge(limit=amount+1)
