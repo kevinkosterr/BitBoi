@@ -41,7 +41,9 @@ if __name__ == '__main__':
     # the list of cogs inside of the cogs package,
     # every cog must be added to this list.
     # like so: cogs.PACKAGE_NAME
-    cogs = ['cogs.BasicCommands']
+    cogs = ['cogs.BasicCommands',
+            'cogs.AdminCommands'
+            ]
 
     # the token must be given as an argument
     __token__ = sys.argv[1]
