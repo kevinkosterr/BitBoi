@@ -10,6 +10,7 @@ class Basic(commands.Cog):
 
     @commands.command(name='help')
     async def help_command(self, ctx, *cmd):
+        """shows help"""
         if not cmd:
             help_embed = discord.Embed(
                 title='List of commands',
@@ -49,6 +50,7 @@ class Basic(commands.Cog):
 
     @commands.command(name='serverinfo', aliases=['si', 's'])
     async def server_inf_command(self, ctx):
+        """shows information about the server"""
         embed = discord.Embed(
             description='Server information',
             color=discord.Color.blue()

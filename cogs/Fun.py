@@ -8,6 +8,7 @@ class Fun(commands.Cog):
 
     @commands.command(name='beep')
     async def beep_command(self, ctx):
+        """boop!:robot:"""
         await ctx.send('Boop!:robot:')
 
 

@@ -11,7 +11,7 @@ class Admin(commands.Cog):
     @commands.command(name='kick')
     @commands.has_permissions(kick_members=True)
     async def kick_command(self, ctx, member: discord.Member, reason=None):
-        """kick <user>, kicks the specified user"""
+        """.kick <user>, kicks the specified user"""
         await member.kick(reason=reason)
         if reason is not None:
             await ctx.send(f'{member}, has been kicked from the server. Reason: {reason}')
@@ -21,7 +21,7 @@ class Admin(commands.Cog):
     @commands.command(name='ban')
     @commands.has_permissions(ban_members=True)
     async def ban_command(self, ctx, member: discord.Member, reason=None):
-        """ban <user>, bans the specified user"""
+        """.ban <user>, bans the specified user"""
         await member.ban(reason=reason)
         if reason is not None:
             await ctx.send(f'{member}, has been banned from the server. Reason: {reason}')
@@ -31,7 +31,7 @@ class Admin(commands.Cog):
     @commands.command(name='clear')
     @commands.has_permissions(manage_messages=True)
     async def clear_command(self, ctx, amount: int):
-        """clear <amount>, clears the amount of messages specified"""
+        """.clear <amount>, clears the amount of messages specified"""
         deleted = await ctx.channel.purge(limit=amount+1)
         delete_msg = await ctx.send(f'{len(deleted) - 1} messages have been deleted.')
         time.sleep(1)
