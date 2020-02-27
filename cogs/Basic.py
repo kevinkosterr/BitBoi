@@ -11,11 +11,13 @@ class Basic(commands.Cog):
     @commands.command(name='help')
     async def help_command(self, ctx, *cmd):
         """shows help"""
+        server = ctx.message.guild
         if not cmd:
             help_embed = discord.Embed(
                 title='List of commands',
                 description='Use `.help <category>` to see the commands of that category'
             )
+            help_embed.set_thumbnail(url=server.icon_url)
             cogs_desc = ''
             for cog in self.bot.cogs:
                 cogs_desc += f'{cog} - {self.bot.cogs[cog].__doc__} \n'
@@ -28,6 +30,7 @@ class Basic(commands.Cog):
                     description='Can\'t show multiple categories',
                     color=discord.Color.red()
                 )
+                help_embed.set_thumbnail(url=server.icon_url)
                 await ctx.send(embed=help_embed)
             else:
                 found = False
@@ -36,6 +39,7 @@ class Basic(commands.Cog):
                         help_embed = discord.Embed(
                             title=cmd[0].capitalize() + ' command list',
                         )
+                        help_embed.set_thumbnail(url=server.icon_url)
                         for c in self.bot.get_cog(cog).get_commands():
                             if not c.hidden:
                                 help_embed.add_field(name=c.name, value=c.help, inline=False)
@@ -46,6 +50,7 @@ class Basic(commands.Cog):
                         description=f'The {cmd[0]} category doesn\'t exist',
                         color=discord.Color.red()
                     )
+                    help_embed.set_thumbnail(url=server.icon_url)
                 await ctx.send(embed=help_embed)
 
     @commands.command(name='serverinfo', aliases=['si', 's'])
