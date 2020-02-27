@@ -41,10 +41,6 @@ class BasicCommands(commands.Cog):
             await ctx.send(embed=basic_embed)
             await ctx.send(embed=minecraft_embed)
 
-    @commands.command(name='beep')
-    async def beep_command(self, ctx):
-        await ctx.send('Boop!:robot:')
-
     @commands.command(name='serverinfo', aliases=['si', 's'])
     async def server_inf_command(self, ctx):
         embed = discord.Embed(
