@@ -42,14 +42,21 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=game)
 
 
-def is_cog(cog: str):
-    if not cog.startswith('__'):
+def is_cog(filename: str):
+    """
+    Checks if the given filename is a valid cog
+    """
+    if not filename.startswith('__'):
         return True
     else:
         return False
 
 
 def update_cogs():
+    """
+    Checks the cogs directory if there have been added any new cogs,
+    if so it appends them to the cogs list.
+    """
     # start reading cogs from the cogs directory
     for cog in os.listdir('cogs'):
         if is_cog(cog):
@@ -71,9 +78,6 @@ def update_cogs():
 @bot.command()
 @commands.has_role('Developer')
 async def reload(ctx):
-    """
-    Reloads all the cogs
-    """
     update_cogs()
     for cog in cogs:
         bot.reload_extension(cog)
@@ -82,9 +86,8 @@ async def reload(ctx):
 
 
 if __name__ == '__main__':
-    # the list of cogs inside of the cogs package,
-    # every cog must be added to this list.
-    # like so: cogs.PACKAGE_NAME
+    # this list will be filled automatically when
+    # starting up the bot
     cogs = []
 
     # the token must be given as an argument
