@@ -3,7 +3,8 @@ from discord.ext import commands
 import time
 
 
-class AdminCommands(commands.Cog):
+class Admin(commands.Cog):
+    """Admin commands"""
     def __init__(self, bot):
         self.bot = bot
 
@@ -35,4 +36,4 @@ class AdminCommands(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(AdminCommands(bot))
+    bot.add_cog(Admin(bot))
