@@ -56,10 +56,17 @@ class Basic(commands.Cog):
     @commands.command(name='serverinfo', aliases=['si', 's'])
     async def server_inf_command(self, ctx):
         """shows information about the server"""
+        server = ctx.message.guild
         embed = discord.Embed(
+            title=server.name,
             description='Server information',
-            color=discord.Color.blue()
+            color=discord.Color.green()
         )
+        embed.add_field(name='Created at:', value=f'{server.created_at}')
+        embed.add_field(name='Member count:', value=f'{server.member_count}', inline=True)
+        embed.add_field(name='Amount of channels:', value=f'{len(server.channels)}', inline=False)
+        embed.add_field(name='Server region:', value=f'{str(server.region).upper()}')
+        embed.set_thumbnail(url=server.icon_url)
         embed.set_footer(text=f'Requested by {ctx.message.author}')
         await ctx.send(embed=embed)
 
