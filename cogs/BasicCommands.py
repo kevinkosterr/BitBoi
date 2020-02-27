@@ -41,7 +41,6 @@ class BasicCommands(commands.Cog):
             await ctx.send(embed=basic_embed)
             await ctx.send(embed=minecraft_embed)
 
-
     @commands.command(name='beep')
     async def beep_command(self, ctx):
         await ctx.send('Boop!:robot:')

@@ -29,7 +29,6 @@ class AdminCommands(commands.Cog):
     @commands.has_permissions(manage_messages=True)
     async def clear_command(self, ctx, amount: int):
         deleted = await ctx.channel.purge(limit=amount+1)
-        time.sleep(1)
         delete_msg = await ctx.send(f'{len(deleted) - 1} messages have been deleted.')
         time.sleep(1)
         await discord.Message.delete(delete_msg)
