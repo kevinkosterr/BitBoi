@@ -62,7 +62,7 @@ class Basic(commands.Cog):
             description='Server information',
             color=discord.Color.green()
         )
-        embed.add_field(name='Created at:', value=f'{server.created_at}')
+        embed.add_field(name='Created at:', value=f'{str(server.created_at).split(".")[0]}')
         embed.add_field(name='Member count:', value=f'{server.member_count}', inline=True)
         embed.add_field(name='Amount of channels:', value=f'{len(server.channels)}', inline=False)
         embed.add_field(name='Server region:', value=f'{str(server.region).upper()}')
