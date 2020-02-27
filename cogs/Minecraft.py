@@ -2,7 +2,7 @@ from discord.ext import commands
 import socket
 
 
-class Minecaft(commands.Cog):
+class Minecraft(commands.Cog):
     """Minecraft commands"""
     def __init__(self, bot):
         self.bot = bot
@@ -33,4 +33,4 @@ def is_online():
 
 
 def setup(bot):
-    bot.add_cog(Minecaft(bot))
+    bot.add_cog(Minecraft(bot))

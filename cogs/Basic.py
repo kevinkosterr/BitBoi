@@ -19,12 +19,6 @@ class Basic(commands.Cog):
             for cog in self.bot.cogs:
                 cogs_desc += f'{cog} - {self.bot.cogs[cog].__doc__} \n'
             help_embed.add_field(name='Categories', value=cogs_desc, inline=True)
-            cmd_desc = ''
-            for cog in self.bot.walk_commands():
-                if not cog.cog_name and not cog.hidden:
-                    cmd_desc += f'{cog.cog_name} - {cog.help} \n'
-                    help_embed.add_field(name='Uncategorized commands', inline=False)
-                    help_embed.add_field(name=str(cog), value=cog.get_commands().__doc__)
             await ctx.send(embed=help_embed)
         elif cmd:
             if len(cmd) > 1:
