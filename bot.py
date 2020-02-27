@@ -1,17 +1,33 @@
 import discord
 from discord.ext import commands
+
 import sys
-import cogs
+import os
 
 bot = commands.Bot(command_prefix='.')
 
 
 @bot.event
 async def on_connect():
+    # start reading cogs from the cogs directory
+    for cog in os.listdir('cogs'):
+        # excluding __init__ and __pycache__
+        if is_cog(cog):
+            # splitting the cog name
+            cog = cog.split('.py')[0]
+            # adding cogs. before the cog name
+            # this way you get cogs.PACKAGE_NAME
+            # so the extension loader will load the cog
+            cog = 'cogs.' + cog
+            # append the cog to the list of cogs
+            cogs.append(cog)
+        else:
+            pass
     try:
         # loads every cog inside the cogs folder
         for cog in cogs:
             bot.load_extension(cog)
+        print(f'Cogs loaded: {cogs}')
     # if any exception occurs, raise it
     except Exception:
         raise
@@ -26,14 +42,42 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=game)
 
 
+def is_cog(cog: str):
+    if not cog.startswith('__'):
+        return True
+    else:
+        return False
+
+
+def update_cogs():
+    # start reading cogs from the cogs directory
+    for cog in os.listdir('cogs'):
+        if is_cog(cog):
+            # splitting the cog name
+            cog = cog.split('.py')[0]
+            # adding cogs. before the cog name
+            # this way you get cogs.PACKAGE_NAME
+            # so the extension loader will load the cog
+            cog = 'cogs.' + cog
+            # append the cog to the list of cogs if it doesn't
+            # already exist
+            if cog not in cogs:
+                cogs.append(cog)
+                print(f'New extension found named: {cog}')
+            else:
+                pass
+
+
 @bot.command()
 @commands.has_role('Developer')
 async def reload(ctx):
     """
     Reloads all the cogs
     """
+    update_cogs()
     for cog in cogs:
         bot.reload_extension(cog)
+    print(f'{ctx.message.author} reloaded the cogs.')
     await ctx.send('Cogs reloaded!:white_check_mark:')
 
 
@@ -41,10 +85,7 @@ if __name__ == '__main__':
     # the list of cogs inside of the cogs package,
     # every cog must be added to this list.
     # like so: cogs.PACKAGE_NAME
-    cogs = ['cogs.BasicCommands',
-            'cogs.AdminCommands',
-            'cogs.MinecraftCommands'
-            ]
+    cogs = []
 
     # the token must be given as an argument
     __token__ = sys.argv[1]
