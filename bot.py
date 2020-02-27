@@ -77,7 +77,7 @@ def update_cogs():
 
 
 @bot.command()
-@commands.has_role('Developer')
+@commands.has_role('Bit-Developer')
 async def reload(ctx):
     update_cogs()
     for cog in cogs:
