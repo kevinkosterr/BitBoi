@@ -32,7 +32,7 @@ class BasicCommands(commands.Cog):
         admin_embed.add_field(name='.ban', value='Bans the specified member', inline=False)
         admin_embed.add_field(name='.clear', value='Deletes messages', inline=False)
 
-        admin_role = discord.utils.find(lambda r: r.name == 'Developer', ctx.message.guild.roles)
+        admin_role = discord.utils.find(lambda r: r.name == 'Bit-Developer', ctx.message.guild.roles)
         if admin_role in author.roles:
             await ctx.send(embed=basic_embed)
             await ctx.send(embed=minecraft_embed)
