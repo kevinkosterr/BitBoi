@@ -59,7 +59,7 @@ def is_cog(filename: str):
         return False
 
 
-def update_cogs():
+def check_for_new_cogs():
     """
     Checks the cogs directory if there have been added any new cogs,
     if so it appends them to the cogs list.
@@ -85,7 +85,7 @@ def update_cogs():
 @bot.command()
 @commands.has_role('Bit-Developer')
 async def reload(ctx):
-    update_cogs()
+    check_for_new_cogs()
     for cog in cogs:
         bot.reload_extension(cog)
     print(f'{ctx.message.author} reloaded the cogs.')
