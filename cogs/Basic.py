@@ -12,6 +12,7 @@ class Basic(commands.Cog):
     async def help_command(self, ctx, *cmd):
         """shows help"""
         server = ctx.message.guild
+        # if the category isn't given, will embed of available categories
         if not cmd:
             help_embed = discord.Embed(
                 title='List of commands',
@@ -19,11 +20,14 @@ class Basic(commands.Cog):
             )
             help_embed.set_thumbnail(url=server.icon_url)
             cogs_desc = ''
+            # creates a category for every cog in the list of cogs
+            # and uses their docstrings as description
             for cog in self.bot.cogs:
                 cogs_desc += f'{cog} - {self.bot.cogs[cog].__doc__} \n'
             help_embed.add_field(name='Categories', value=cogs_desc, inline=True)
             await ctx.send(embed=help_embed)
         elif cmd:
+            # shows an error if there is more than one category given
             if len(cmd) > 1:
                 help_embed = discord.Embed(
                     title='Error!',
@@ -34,16 +38,21 @@ class Basic(commands.Cog):
                 await ctx.send(embed=help_embed)
             else:
                 found = False
+                # looks if the specified category is the same as any one
+                # of the existing cogs
                 for cog in self.bot.cogs:
                     if cog.lower() == cmd[0].lower():
                         help_embed = discord.Embed(
                             title=cmd[0].capitalize() + ' command list',
                         )
                         help_embed.set_thumbnail(url=server.icon_url)
+                        # looks through the commands in the specified category
                         for c in self.bot.get_cog(cog).get_commands():
+                            # adds the command to the embed if the command is not hidden
                             if not c.hidden:
                                 help_embed.add_field(name=c.name, value=c.help, inline=False)
                         found = True
+                # shows an error if the given category is not found
                 if not found:
                     help_embed = discord.Embed(
                         title='Error!',
