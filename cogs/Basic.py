@@ -23,7 +23,7 @@ class Basic(commands.Cog):
             # creates a category for every cog in the list of cogs
             # and uses their docstrings as description
             for cog in self.bot.cogs:
-                if cog.contains('Events'):
+                if 'Events' in cog:
                     pass
                 cogs_desc += f'{cog} - {self.bot.cogs[cog].__doc__} \n'
             help_embed.add_field(name='Categories', value=cogs_desc, inline=True)
