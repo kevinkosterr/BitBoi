@@ -23,6 +23,8 @@ class Basic(commands.Cog):
             # creates a category for every cog in the list of cogs
             # and uses their docstrings as description
             for cog in self.bot.cogs:
+                if cog.contains('Events'):
+                    pass
                 cogs_desc += f'{cog} - {self.bot.cogs[cog].__doc__} \n'
             help_embed.add_field(name='Categories', value=cogs_desc, inline=True)
             await ctx.send(embed=help_embed)
@@ -41,6 +43,8 @@ class Basic(commands.Cog):
                 # looks if the specified category is the same as any one
                 # of the existing cogs
                 for cog in self.bot.cogs:
+                    if cmd[0].lower() == 'events':
+                        found = False
                     if cog.lower() == cmd[0].lower():
                         help_embed = discord.Embed(
                             title=cmd[0].capitalize() + ' command list',
