@@ -43,12 +43,6 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=game)
 
 
-@bot.event
-async def on_member_join(member):
-    role = discord.utils.get(member.server.roles, id='515116348305571842')
-    await member.add_roles(role)
-
-
 def is_cog(filename: str):
     """
     Checks if the given filename is a valid cog

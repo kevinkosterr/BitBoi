@@ -20,7 +20,7 @@ class Minecraft(commands.Cog):
         if self.online:
             await ctx.send('The server is online!')
         else:
-            await ctx.send('The server is offline')
+            await ctx.send('The server is offline:cry:')
 
     @staticmethod
     def is_online():
