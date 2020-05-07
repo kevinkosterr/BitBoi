@@ -23,9 +23,10 @@ class Basic(commands.Cog):
             # creates a category for every cog in the list of cogs
             # and uses their docstrings as description
             for cog in self.bot.cogs:
-                if 'Events' in cog:
+                if cog != 'Events':
+                    cogs_desc += f'{cog} - {self.bot.cogs[cog].__doc__} \n'
+                else:
                     pass
-                cogs_desc += f'{cog} - {self.bot.cogs[cog].__doc__} \n'
             help_embed.add_field(name='Categories', value=cogs_desc, inline=True)
             await ctx.send(embed=help_embed)
         elif cmd:
@@ -43,9 +44,7 @@ class Basic(commands.Cog):
                 # looks if the specified category is the same as any one
                 # of the existing cogs
                 for cog in self.bot.cogs:
-                    if cmd[0].lower() == 'events':
-                        found = False
-                    if cog.lower() == cmd[0].lower():
+                    if cmd[0].lower() != 'events':
                         help_embed = discord.Embed(
                             title=cmd[0].capitalize() + ' command list',
                         )
@@ -56,11 +55,13 @@ class Basic(commands.Cog):
                             if not c.hidden:
                                 help_embed.add_field(name=c.name, value=c.help, inline=False)
                         found = True
+                    else:
+                        found = False
                 # shows an error if the given category is not found
                 if not found:
                     help_embed = discord.Embed(
                         title='Error!',
-                        description=f'The {cmd[0]} category doesn\'t exist',
+                        description=f'The {cmd[0].uppercase()} category doesn\'t exist.',
                         color=discord.Color.red()
                     )
                     help_embed.set_thumbnail(url=server.icon_url)
