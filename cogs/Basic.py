@@ -61,7 +61,7 @@ class Basic(commands.Cog):
                 if not found:
                     help_embed = discord.Embed(
                         title='Error!',
-                        description=f'The {cmd[0].uppercase()} category doesn\'t exist.',
+                        description=f'The {cmd[0]} category doesn\'t exist.',
                         color=discord.Color.red()
                     )
                     help_embed.set_thumbnail(url=server.icon_url)
