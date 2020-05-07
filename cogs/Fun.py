@@ -46,7 +46,11 @@ class Fun(commands.Cog):
                 data = json.loads(await response.text())
                 # sets the embed image to the
                 # image from the response
-                embed.set_image(url=data['data']['images']['original']['url'])
+                try:
+                    embed.set_image(url=data['data']['images']['original']['url'])
+                except KeyError:
+                    print(f'RESPONSE: {data}')
+                    raise
             else:
                 response = await session.get(
                     f'https://api.giphy.com/v1/gifs/search?q={search}&api_key={api_key}&limit=10')
@@ -56,7 +60,11 @@ class Fun(commands.Cog):
                 gif_choice = random.randint(0, 9)
                 # sets the embed image to the
                 # image from the response
-                embed.set_image(url=data['data'][gif_choice]['images']['original']['url'])
+                try:
+                    embed.set_image(url=data['data'][gif_choice]['images']['original']['url'])
+                except KeyError:
+                    print(f'RESPONSE: {data}')
+                    raise
         await ctx.send(embed=embed)
 
 
