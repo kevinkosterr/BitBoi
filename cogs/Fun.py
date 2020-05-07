@@ -1,16 +1,10 @@
 import discord
 from discord.ext import commands
+from bot import load_config
 
 import random
 import aiohttp
 import json
-import toml
-
-
-def load_config(subj: str, part: str):
-    """Loads the configuration"""
-    config = toml.load('config.toml').get(subj).get(part)
-    return config
 
 
 class Fun(commands.Cog):
@@ -44,7 +38,7 @@ class Fun(commands.Cog):
     async def gif_command(self, ctx, *search: str):
         """sends a random GIF"""
         embed = discord.Embed(color=discord.Color.green())
-        api_key = load_config('GIPHY', 'api_key')
+        api_key = load_config('MAIN', 'giphy_api_key')
         async with aiohttp.ClientSession() as session:
             if not search:
                 response = await session.get(f'https://api.giphy.com/v1/gifs/random?api_key={api_key}')
@@ -54,7 +48,8 @@ class Fun(commands.Cog):
                 # image from the response
                 embed.set_image(url=data['data']['images']['original']['url'])
             else:
-                response = await session.get(f'https://api.giphy.com/v1/gifs/search?q={search}&api_key={api_key}&limit=10')
+                response = await session.get(
+                    f'https://api.giphy.com/v1/gifs/search?q={search}&api_key={api_key}&limit=10')
                 # loads the response data as json
                 data = json.loads(await response.text())
                 # chooses a random gif from the GIFS found by GIPHY

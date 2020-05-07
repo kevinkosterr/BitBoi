@@ -1,8 +1,8 @@
 import discord
 from discord.ext import commands
 
-import sys
 import os
+import toml
 
 bot = commands.Bot(command_prefix='.')
 bot.remove_command('help')
@@ -86,13 +86,19 @@ async def reload(ctx):
     await ctx.send('Cogs reloaded!:white_check_mark:')
 
 
+def load_config(subj: str, part: str):
+    """Loads the configuration"""
+    config = toml.load('config.toml').get(subj).get(part)
+    return config
+
+
 if __name__ == '__main__':
     # this list will be filled automatically when
     # starting up the bot
     cogs = []
 
     # the token must be given as an argument
-    __token__ = sys.argv[1]
+    __token__ = load_config('MAIN', 'token')
 
     # tries to run the bot with the given token
     # if the token is wrong, it raises an exception
