@@ -79,9 +79,13 @@ def check_for_new_cogs():
 @bot.command()
 @commands.has_role('Bit-Developer')
 async def reload(ctx):
+    from discord.ext.commands.errors import ExtensionNotLoaded
     check_for_new_cogs()
     for cog in cogs:
-        bot.reload_extension(cog)
+        try:
+            bot.reload_extension(cog)
+        except ExtensionNotLoaded:
+            bot.load_extension(cog)
     print(f'{ctx.message.author} reloaded the cogs.')
     await ctx.send('Cogs reloaded!:white_check_mark:')
 
