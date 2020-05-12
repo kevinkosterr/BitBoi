@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from bot import log_this
 import time
 
 
@@ -15,10 +16,10 @@ class Admin(commands.Cog):
         """.kick <user> <reason>, kicks the specified user"""
         await member.kick(reason=reason)
         if reason is not None:
-            print(f'{ctx.message.author} kicked {member}: {reason}')
+            log_this(f'{ctx.message.author} kicked {member}: {reason}')
             await ctx.send(f'{member}, has been kicked from the server. Reason: {reason}')
         else:
-            print(f'{ctx.message.author} kicked {member}. UNKNOWN REASON')
+            log_this(f'{ctx.message.author} kicked {member}. UNKNOWN REASON')
             await ctx.send(f'{member}, has been kicked from the server.')
 
     @commands.command(name='ban')
@@ -27,10 +28,10 @@ class Admin(commands.Cog):
         """.ban <user> <reason>, bans the specified user"""
         await member.ban(reason=reason)
         if reason is not None:
-            print(f'{ctx.message.author} has banned {member}: {reason}')
+            log_this(f'{ctx.message.author} has banned {member}: {reason}')
             await ctx.send(f'{member}, has been banned from the server. Reason: {reason}')
         else:
-            print(f'{ctx.message.author} has banned {member}. REASON UNKNOWN')
+            log_this(f'{ctx.message.author} has banned {member}. REASON UNKNOWN')
             await ctx.send(f'{member}, has been banned from the server.')
 
     @commands.command(name='clear')
@@ -38,7 +39,7 @@ class Admin(commands.Cog):
     async def clear_command(self, ctx, amount: int):
         """.clear <amount>, clears the amount of messages specified"""
         deleted = await ctx.channel.purge(limit=amount + 1)
-        print(f'{ctx.message.author} has cleared {amount} messages.')
+        log_this(f'{ctx.message.author} has cleared {amount} messages.')
         delete_msg = await ctx.send(f'{len(deleted) - 1} messages have been deleted.')
         time.sleep(1)
         await discord.Message.delete(delete_msg)
@@ -51,8 +52,7 @@ class Admin(commands.Cog):
         try:
             await member.add_roles(role)
             await ctx.send(f'Added {rolename} to {member.nick}\'s roles')
-        except AttributeError as e:
-            print(e)
+        except AttributeError:
             await ctx.send(f'The role \'{rolename}\' doesn\'t exist')
 
     @commands.command(name='removerole', aliases=['rr'])
@@ -63,8 +63,7 @@ class Admin(commands.Cog):
         try:
             await member.remove_roles(role)
             await ctx.send(f'Removed {rolename} from {member.nick}')
-        except AttributeError as e:
-            print(e)
+        except AttributeError:
             await ctx.send(f'The role \'{rolename}\' doesn\'t exist')
 
 

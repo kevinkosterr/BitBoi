@@ -1,11 +1,14 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
+from datetime import datetime
+from itertools import cycle
 
 import os
 import toml
 
 bot = commands.Bot(command_prefix='.')
 bot.remove_command('help')
+status = cycle(['with bits and bytes', '.help'])
 
 
 @bot.event
@@ -36,10 +39,13 @@ async def on_connect():
 
 @bot.event
 async def on_ready():
-    game = discord.Game('with bits and bytes')
     # prints the name of the bot
     print('Logged in as', bot.user)
-    # changes the presence of the bot
+
+
+@tasks.loop(seconds=10)
+async def change_status():
+    game = discord.Game(next(status))
     await bot.change_presence(status=discord.Status.online, activity=game)
 
 
@@ -86,7 +92,7 @@ async def reload(ctx):
             bot.reload_extension(cog)
         except ExtensionNotLoaded:
             bot.load_extension(cog)
-    print(f'{ctx.message.author} reloaded the cogs.')
+    log_this(f'{ctx.message.author} reloaded the cogs.')
     await ctx.send('Cogs reloaded!:white_check_mark:')
 
 
@@ -94,6 +100,11 @@ def load_config(subj: str, part: str):
     """Loads the configuration"""
     config = toml.load('config.toml').get(subj).get(part)
     return config
+
+
+def log_this(event):
+    with open('serverlogs.log', 'a') as log:
+        log.write('[{}] - {} \n'.format(datetime.now(), event))
 
 
 if __name__ == '__main__':
