@@ -40,6 +40,7 @@ async def on_connect():
 @bot.event
 async def on_ready():
     # prints the name of the bot
+    change_status.start()
     print('Logged in as', bot.user)
 
 
