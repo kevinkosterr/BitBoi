@@ -10,6 +10,7 @@ bot = commands.Bot(command_prefix='.')
 bot.remove_command('help')
 status = cycle(['with bits and bytes', '.help'])
 
+# TODO: LOG TO FILE!
 
 @bot.event
 async def on_connect():
@@ -31,7 +32,7 @@ async def on_connect():
         # loads every cog inside the cogs folder
         for cog in cogs:
             bot.load_extension(cog)
-        logging.info('Cogs loaded', cogs)
+        print('Cogs loaded', cogs)
     # if any exception occurs, raise it
     except Exception:
         raise
@@ -39,7 +40,7 @@ async def on_connect():
 
 @bot.event
 async def on_ready():
-    # prints the name of the bot
+    # start the change_status loop
     change_status.start()
     print('Logged in as', bot.user)
 
@@ -86,13 +87,21 @@ def check_for_new_cogs():
 @bot.command()
 @commands.has_role('Bit-Developer')
 async def reload(ctx):
-    from discord.ext.commands.errors import ExtensionNotLoaded
+    """
+    Command used to reload the cogs from discord within discord without having to restart the bot.
+    """
+    from discord.ext.commands.errors import ExtensionNotLoaded, ExtensionNotFound
+    # before reloading the cogs, check for new ones
     check_for_new_cogs()
     for cog in cogs:
         try:
             bot.reload_extension(cog)
+        #     if Extension is not loaded, load the extension.
         except ExtensionNotLoaded:
             bot.load_extension(cog)
+        # if the extension is not found, log to console.
+        except ExtensionNotFound:
+            logging.warning('Error finding Extension', cog, exc_info=True)
     logging.info(f'{ctx.message.author} reloaded the cogs.')
     await ctx.send('Cogs reloaded!:white_check_mark:')
 

@@ -50,7 +50,7 @@ class Fun(commands.Cog):
                 try:
                     embed.set_image(url=data['data']['images']['original']['url'])
                 except KeyError:
-                    logging.error('Keyerror in data', extra=data, exc_info=True)
+                    logging.warning('Keyerror in data', extra=data, exc_info=True)
                     raise
             else:
                 response = await session.get(
@@ -64,7 +64,7 @@ class Fun(commands.Cog):
                 try:
                     embed.set_image(url=data['data'][gif_choice]['images']['original']['url'])
                 except KeyError:
-                    print(f'RESPONSE: {data}')
+                    logging.warning('Keyerror in data', extra=data, exc_info=True)
                     raise
         await ctx.send(embed=embed)
 
