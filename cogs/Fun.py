@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from bot import load_config
+import logging
 
 import random
 import aiohttp
@@ -49,7 +50,7 @@ class Fun(commands.Cog):
                 try:
                     embed.set_image(url=data['data']['images']['original']['url'])
                 except KeyError:
-                    print(f'RESPONSE: {data}')
+                    logging.error('Keyerror in data', extra=data, exc_info=True)
                     raise
             else:
                 response = await session.get(

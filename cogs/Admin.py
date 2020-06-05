@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
-from bot import log_this
 import time
+import logging
 
 
 class Admin(commands.Cog):
@@ -16,10 +16,10 @@ class Admin(commands.Cog):
         """.kick <user> <reason>, kicks the specified user"""
         await member.kick(reason=reason)
         if reason is not None:
-            log_this(f'{ctx.message.author} kicked {member}: {reason}')
+            logging.info(f'{ctx.message.author} kicked {member}: {reason}')
             await ctx.send(f'{member}, has been kicked from the server. Reason: {reason}')
         else:
-            log_this(f'{ctx.message.author} kicked {member}. UNKNOWN REASON')
+            logging.info(f'{ctx.message.author} kicked {member}. UNKNOWN REASON')
             await ctx.send(f'{member}, has been kicked from the server.')
 
     @commands.command(name='ban')
@@ -28,10 +28,10 @@ class Admin(commands.Cog):
         """.ban <user> <reason>, bans the specified user"""
         await member.ban(reason=reason)
         if reason is not None:
-            log_this(f'{ctx.message.author} has banned {member}: {reason}')
+            logging.info(f'{ctx.message.author} has banned {member}: {reason}')
             await ctx.send(f'{member}, has been banned from the server. Reason: {reason}')
         else:
-            log_this(f'{ctx.message.author} has banned {member}. REASON UNKNOWN')
+            logging.info(f'{ctx.message.author} has banned {member}. REASON UNKNOWN')
             await ctx.send(f'{member}, has been banned from the server.')
 
     @commands.command(name='clear')
@@ -39,7 +39,7 @@ class Admin(commands.Cog):
     async def clear_command(self, ctx, amount: int):
         """.clear <amount>, clears the amount of messages specified"""
         deleted = await ctx.channel.purge(limit=amount + 1)
-        log_this(f'{ctx.message.author} has cleared {amount} messages.')
+        logging.info(f'{ctx.message.author} has cleared {amount} messages.')
         delete_msg = await ctx.send(f'{len(deleted) - 1} messages have been deleted.')
         time.sleep(1)
         await discord.Message.delete(delete_msg)
@@ -62,6 +62,7 @@ class Admin(commands.Cog):
         role = discord.utils.get(member.guild.roles, name=rolename)
         try:
             await member.remove_roles(role)
+            logging.info(f'{ctx.message.author} removed {rolename} from {member}')
             await ctx.send(f'Removed {rolename} from {member.nick}')
         except AttributeError:
             await ctx.send(f'The role \'{rolename}\' doesn\'t exist')

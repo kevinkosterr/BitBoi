@@ -1,5 +1,6 @@
 from discord.ext import commands
 import discord
+import logging
 
 
 class Events(commands.Cog):
@@ -15,7 +16,7 @@ class Events(commands.Cog):
         try:
             await member.add_roles(role)
         except Exception:
-            print(f'Something went wrong. {role} role can\'t be added to {member}')
+            logging.error(f'Something went wrong. {role} role can\'t be added to {member}', exc_info=True)
             raise
         await channel.send(f'Welcome to the party {member.mention}!:partying_face:')
 

@@ -1,8 +1,8 @@
 import discord
 from discord.ext import commands
-from bot import log_this
 import requests, json
 import re
+import logging
 
 
 class Misc(commands.Cog):
@@ -30,10 +30,10 @@ class Misc(commands.Cog):
                     keyname = re.findall('[A-Z][^A-Z]*', key)
                     embed.add_field(name=f'{keyname[0]} {keyname[1]}', value=self.prettify(response['Global'][key]),
                                     inline=False)
-                log_this(f'COVID-19 data requested by: {ctx.message.author}')
+                logging.info(f'COVID-19 data requested by {ctx.message.author}')
                 await ctx.send(embed=embed)
-        except json.decoder.JSONDecodeError as e:
-            log_this(e)
+        except json.decoder.JSONDecodeError:
+            logging.error('JSON Decode Error:', exc_info=True)
             await ctx.send('Oops, something went wrong...')
 
 

@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands, tasks
-from datetime import datetime
 from itertools import cycle
+import logging
 
 import os
 import toml
@@ -31,7 +31,7 @@ async def on_connect():
         # loads every cog inside the cogs folder
         for cog in cogs:
             bot.load_extension(cog)
-        print(f'Cogs loaded: {cogs}')
+        logging.info('Cogs loaded', cogs)
     # if any exception occurs, raise it
     except Exception:
         raise
@@ -78,7 +78,7 @@ def check_for_new_cogs():
             # already exist
             if cog not in cogs:
                 cogs.append(cog)
-                print(f'New extension found named: {cog}')
+                logging.info(f'New extension found named: {cog}')
             else:
                 pass
 
@@ -93,7 +93,7 @@ async def reload(ctx):
             bot.reload_extension(cog)
         except ExtensionNotLoaded:
             bot.load_extension(cog)
-    log_this(f'{ctx.message.author} reloaded the cogs.')
+    logging.info(f'{ctx.message.author} reloaded the cogs.')
     await ctx.send('Cogs reloaded!:white_check_mark:')
 
 
@@ -101,12 +101,6 @@ def load_config(subj: str, part: str):
     """Loads the configuration"""
     config = toml.load('config.toml').get(subj).get(part)
     return config
-
-
-def log_this(event):
-    with open('serverlogs.log', 'a') as log:
-        log.write('[{}] - {} \n'.format(datetime.now(), event))
-
 
 if __name__ == '__main__':
     # this list will be filled automatically when
